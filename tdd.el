@@ -111,7 +111,6 @@ of that compilation command."
   (cond
    (tdd-mode
     (tdd-add-mode-line-format)
-    (tdd-success)
     (add-hook 'compilation-finish-functions 'tdd-compilation-finish)
     (add-hook 'compilation-start-hook 'tdd-compilation-start)
     (add-hook 'after-save-hook 'tdd-after-save))
@@ -141,7 +140,7 @@ of that compilation command."
                     'face tdd-failure-face
                     'keymap tdd-mode-line-map
                     'mouse-face 'mode-line-highlight
-                    'help-echo (concat "Tests running\n"
+                    'help-echo (concat "Tests failed\n"
                                        "mouse-1: Switch to test buffer"))))
 
 (defun tdd-waiting ()
@@ -152,7 +151,7 @@ of that compilation command."
                     'face tdd-waiting-face
                     'keymap tdd-mode-line-map
                     'mouse-face 'mode-line-highlight
-                    'help-echo (concat "Tests failed\n"
+                    'help-echo (concat "Tests running\n"
                                        "mouse-1: Switch to test buffer"))))
 
 (defun tdd-display-buffer ()
