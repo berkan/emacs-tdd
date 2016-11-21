@@ -48,6 +48,10 @@
                             map)
   "Keymap used on the mode line indicator.")
 
+(defvar tdd-enabled-modes '()
+  "Run tdd-after-save only for these modes"
+  )
+
 (defcustom tdd-test-function #'recompile
   "Test function to run.
 
@@ -182,12 +186,13 @@ of that compilation command."
 
 (defun tdd-after-save ()
   "Function run in `after-save-hook' to start the compilation."
-  (when (not tdd-compilation-in-progress)
-    (setq tdd-compilation-in-progress t)
-    (let ((compilation-ask-about-save nil)
-          (compilation-save-buffers-predicate (lambda () nil)))
-      (save-window-excursion
-        (funcall tdd-test-function)))))
+  (if (memq major-mode tdd-enabled-modes)
+      (when (not tdd-compilation-in-progress)
+        (setq tdd-compilation-in-progress t)
+        (let ((compilation-ask-about-save nil)
+              (compilation-save-buffers-predicate (lambda () nil)))
+          (save-window-excursion
+            (funcall tdd-test-function))))))
 
 (defun tdd-compilation-start (proc)
   "Function run from `compilation-start-hook'."
